@@ -24,7 +24,6 @@ db.settings({ timestampsInSnapshots: true });
 const imageInput = document.querySelector('#image_uploads');
 const preview = document.querySelector('.preview');
 imageInput.style.opacity = 0;
-let imgSrc = "https://cpmr-islands.org/wp-content/uploads/sites/4/2019/07/test.png";
 let file;
 
 function uploadedImg(input) {
@@ -128,9 +127,8 @@ signupForm.addEventListener('submit', (event) => {
 
   // sign up the user & add firestore data
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
-    firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then(() =>{
-      console.log(true)
-    })
+      firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then((status) =>{
+      })
     db.collection('users').doc(cred.user.uid).set({
       bio: signupForm['signup-bio'].value
     });
@@ -139,6 +137,7 @@ signupForm.addEventListener('submit', (event) => {
     const modal = document.querySelector('#modal-signup');
     M.Modal.getInstance(modal).close();
     signupForm.reset();
+    setTimeout(function(){location.reload(true)}, 500);
   });
 });
 
