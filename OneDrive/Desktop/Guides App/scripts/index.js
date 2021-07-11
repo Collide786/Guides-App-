@@ -1,11 +1,11 @@
-
 // DOM elements
+const nav = document.querySelector('nav');
 const guideList = document.querySelector('.guides');
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountDetails = document.querySelector('.account-details');
 const loadingUI = document.querySelector('.loading');
-
+const bw = document.querySelector('.background-bw');
 
 const setupUI = (user) => {
   loadingUI.style.display = 'none'
@@ -15,7 +15,7 @@ const setupUI = (user) => {
 
       firebase.storage().ref('users/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
         const html = `
-        <img style="width: 100px; border-radius: 5rem;" src="${image}"> </img>
+        <img id="profileImage" src="${image}"> </img>
         <br/>
         <br/>
         <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>

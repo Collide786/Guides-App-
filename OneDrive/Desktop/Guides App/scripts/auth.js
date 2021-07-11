@@ -104,8 +104,7 @@ createForm.addEventListener('submit', (event) => {
     db.collection('guides').add({
       title: createForm.title.value + ' -' + user.email,
       content: createForm.content.value,
-      time: `${hour}:${minutes}:${seconds}`,
-      id: 1
+      time: `${hour}:${minutes}:${seconds}`
     }).then(() => {
       // close the create modal & reset form
       const modal = document.querySelector('#modal-create');
