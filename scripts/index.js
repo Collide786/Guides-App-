@@ -6,17 +6,16 @@ const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountDetails = document.querySelector('.account-details');
 const loadingUI = document.querySelector('.loading');
 
-
 const setupUI = (user) => {
   loadingUI.style.display = 'none'
   if (user) {
     let noImgSrc = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
     // account info
     db.collection('users').doc(user.uid).get().then(doc => {
-
       firebase.storage().ref('users/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
+        
         const html = `
-        <img style="width: 100px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
+        <img id="profileImage" style="width: 100px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
         <br/>
         <br/>
         <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
@@ -60,8 +59,7 @@ const setupGuides = (data) => {
       }
       else{
         html = guideList.innerHTML = '<h5 class="center-align">No guides avalible.</h5>';
-      }
-    });
+      }});
     guideList.innerHTML = html
   }
   else{

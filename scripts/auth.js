@@ -17,8 +17,9 @@ let time = new Date();
 let seconds = parseInt(time.getSeconds()) < 10 ? `0${time.getSeconds()}` : time.getSeconds();
 let minutes = parseInt(time.getMinutes()) < 10 ? `0${time.getMinutes()}` : time.getMinutes();
 let hour = parseInt(time.getHours()%12) < 10 ? `0${time.getHours()%12}` : time.getHours()%12;
+let date = `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()}`;
 // update firestore settings
-db.settings({ timestampsInSnapshots: true });
+db.settings({ timestampsInSnapshots: true, merge: true });
 
 
 const imageInput = document.querySelector('#image_uploads');
@@ -41,46 +42,28 @@ function uploadedImg(input) {
         preveiwImg.style.cssText = "width: 100px; height: 100px;"
         preveiwImg.src = src
         preview.appendChild(preveiwImg);
+        
       }
     );
     reader.readAsDataURL(input.files[0]);
   }
 }
 
-
-function toggleCanvas() {
-  var canvas = document.getElementById("myCanvas");
-  if(canvas.style.display == "none"){
-    canvas.style.display = "block";
-    document.getElementById("toggleCanvasDisplay").innerText = "Hide canvas";
-  }
-  else {
-    canvas.style.display = "none";
-    document.getElementById("toggleCanvasDisplay").innerText = "Show canvas";
-  }
-}
-
-function toggleDataUrl() {
-  var area = document.getElementById("dataUrl");
-  if(area.style.display == "none"){
-    area.style.display = "block";
-    document.getElementById("toggleDataUrl").innerText = "Hide data url";
-  }
-  else {
-    area.style.display = "none";
-    document.getElementById("toggleDataUrl").innerText = "Show data url";
-  }
-}
-
-
-
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
     db.collection('guides').onSnapshot(snapshot => {
-      setupGuides(snapshot.docs, user);
-      setupUI(user); 
-    }, err => console.log(err.message));  
+      if(snapshot.docs.length != 0){
+        db.collection('guides').orderBy('time').orderBy('date').get().then((snapshot) =>{
+          setupGuides(snapshot.docs, user)
+          setupUI(user); 
+        })
+      }
+      else{
+        setupGuides(snapshot.docs, user);
+        setupUI(user); 
+      }
+    })
   } else {
     setupUI();
     setupGuides([]);
@@ -91,7 +74,19 @@ setInterval(() =>{
   time = new Date();
   seconds = parseInt(time.getSeconds()) < 10 ? `0${time.getSeconds()}` : time.getSeconds();
   minutes = parseInt(time.getMinutes()) < 10 ? `0${time.getMinutes()}` : time.getMinutes();
-  hour = parseInt(time.getHours()%12) < 10   ? `0${time.getHours()%12}` : time.getHours()%12;
+  hour = function(){
+    if(parseInt(time.getHours()%12) < 10 && parseInt(time.getHours()%12) != 0 ){
+      return `0${time.getHours()%12}`
+    }else{
+      if(parseInt(time.getHours()%12) == 0){
+        return time.getHours();
+      }
+      else{
+        return time.getHours()%12;
+      }
+    }
+  }
+  date = `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()}`;
 }, 1000);
 
 // create new guide
@@ -99,10 +94,12 @@ const createForm = document.querySelector('#create-form');
 createForm.addEventListener('submit', (event) => {
   event.preventDefault();
   auth.onAuthStateChanged((user) => {
+    if(user){
     db.collection('guides').add({
       title: createForm.title.value + ' -' + user.email,
       content: createForm.content.value,
-      time: `${hour}:${minutes}:${seconds}`,
+      time: `${hour()}:${minutes}:${seconds}`,
+      date: `${date}`
     }).then(() => {
       // close the create modal & reset form
       const modal = document.querySelector('#modal-create');
@@ -111,6 +108,7 @@ createForm.addEventListener('submit', (event) => {
     }).catch(err => {
       console.log(err.message);
     });
+  }
   })
 });
 
@@ -119,8 +117,6 @@ createForm.addEventListener('submit', (event) => {
 // signup
 const signupForm = document.querySelector('#signup-form');
 signupForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  
   // get user info
   const email = signupForm['signup-email'].value;
   const password = signupForm['signup-password'].value;
