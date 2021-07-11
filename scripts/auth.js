@@ -21,12 +21,10 @@ let date = `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()}`;
 // update firestore settings
 db.settings({ timestampsInSnapshots: true, merge: true });
 
-
 const imageInput = document.querySelector('#image_uploads');
 const preview = document.querySelector('.preview');
 imageInput.style.opacity = 0;
 let file;
-
 function uploadedImg(input) {
   while(preview.firstChild) {
     preview.removeChild(preview.firstChild);
@@ -116,16 +114,19 @@ createForm.addEventListener('submit', (event) => {
 
 // signup
 const signupForm = document.querySelector('#signup-form');
-signupForm.addEventListener('submit', (event) => {
+signupForm.addEventListener('submit', (e) => {
+  e.preventDefault();
   // get user info
   const email = signupForm['signup-email'].value;
   const password = signupForm['signup-password'].value;
 
   // sign up the user & add firestore data
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
+    if(file != null){
       firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then(function(){
-        console.log('worked');
+        console.log('worked')      
       })
+    }
     db.collection('users').doc(cred.user.uid).set({
       bio: signupForm['signup-bio'].value
     });
@@ -134,6 +135,10 @@ signupForm.addEventListener('submit', (event) => {
     const modal = document.querySelector('#modal-signup');
     M.Modal.getInstance(modal).close();
     signupForm.reset();
+  }).then(() =>{
+    setTimeout(function(){
+      window.location.reload();
+    }, 1000)
   });
 });
 
