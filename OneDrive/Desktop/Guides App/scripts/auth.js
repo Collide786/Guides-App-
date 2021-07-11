@@ -23,14 +23,16 @@ db.settings({ timestampsInSnapshots: true });
 
 const imageInput = document.querySelector('#image_uploads');
 const preview = document.querySelector('.preview');
-let imgSrc = "https://cpmr-islands.org/wp-content/uploads/sites/4/2019/07/test.png"
 imageInput.style.opacity = 0;
+let imgSrc = "https://cpmr-islands.org/wp-content/uploads/sites/4/2019/07/test.png";
+let file;
 
 function uploadedImg(input) {
   while(preview.firstChild) {
     preview.removeChild(preview.firstChild);
   }
   if (input.files && input.files[0]) {
+    file = input.files[0];
     var reader = new FileReader();
     reader.addEventListener(
       "load",
@@ -40,7 +42,6 @@ function uploadedImg(input) {
         preveiwImg.style.cssText = "width: 100px; height: 100px;"
         preveiwImg.src = src
         preview.appendChild(preveiwImg);
-        imgSrc = preveiwImg.src;
       }
     );
     reader.readAsDataURL(input.files[0]);
@@ -48,9 +49,6 @@ function uploadedImg(input) {
 }
 
 
-// https://stackoverflow.com/questions/63046037/how-to-shorten-dataurl-or-convert-it-back-to-png-in-javascript
-// https://www.google.com/search?q=shorten+a+data+url+for+an+image+javascript&sxsrf=ALeKk00gPiK-e-L4FUDtRyF6lKg9a5j8HQ:1625952150495&source=lnms&tbm=vid&sa=X&ved=2ahUKEwin7efit9nxAhXV0p4KHZ6GAlMQ_AUoAXoECAEQAw&biw=1280&bih=671
-// https://www.digitalocean.com/community/tutorials/how-to-encode-and-decode-strings-with-base64-in-javascript
 
 function toggleCanvas() {
   var canvas = document.getElementById("myCanvas");
@@ -106,7 +104,8 @@ createForm.addEventListener('submit', (event) => {
     db.collection('guides').add({
       title: createForm.title.value + ' -' + user.email,
       content: createForm.content.value,
-      time: `${hour}:${minutes}:${seconds}`
+      time: `${hour}:${minutes}:${seconds}`,
+      id: 1
     }).then(() => {
       // close the create modal & reset form
       const modal = document.querySelector('#modal-create');
@@ -131,9 +130,11 @@ signupForm.addEventListener('submit', (event) => {
 
   // sign up the user & add firestore data
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
+    firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then(() =>{
+      console.log(true)
+    })
     db.collection('users').doc(cred.user.uid).set({
-      bio: signupForm['signup-bio'].value,
-      profileImage: 'test'
+      bio: signupForm['signup-bio'].value
     });
   }).then(() => {
     // close the signup modal & reset form

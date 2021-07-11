@@ -12,14 +12,17 @@ const setupUI = (user) => {
   if (user) {
     // account info
     db.collection('users').doc(user.uid).get().then(doc => {
-      const html = `
-        <img style="width: 100px; border-radius: 5rem;" src="${null}"> </img>
+
+      firebase.storage().ref('users/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
+        const html = `
+        <img style="width: 100px; border-radius: 5rem;" src="${image}"> </img>
         <br/>
         <br/>
         <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
         <div style="font-size: 1.2rem;">${doc.data().bio}</div>
       `;
       accountDetails.innerHTML = html;
+      })
     });
     // toggle user UI elements
     loggedInLinks.forEach(item => item.style.display = 'block');
@@ -34,43 +37,34 @@ const setupUI = (user) => {
 };
 
 // setup guides
-const setupGuides = (data, user) => {
+const setupGuides = (data) => {
   guideList.innerHTML = '<h5 class="center-align">No guides avalible.</h5>';
   if (data.length) {
     let html = '';
     data.forEach(doc => {
       const guide = doc.data();
       if(guide.title && guide.content){
-      const li = `
-        <li>
-            <div class="collapsible-header grey lighten-4"> 
-              ${guide.title} 
-              <div class="row"></div>
-              <div class="col s1 right-align"> ${guide.time} </div>
-            </div>
+        const li = `
+          <li>
+              <div class="collapsible-header grey lighten-4"> 
+                ${guide.title} 
+                <div class="row"></div>
+                <div class="col s1 right-align"> ${guide.time} </div>
+              </div>
 
-            <div class="collapsible-body white"> ${guide.content} </div>
-        </li>
-      `;
-      html += li;
-      }
-      else{
-        html = guideList.innerHTML = '<h5 class="center-align">No guides avalible.</h5>';
+              <div class="collapsible-body white"> ${guide.content} </div>
+          </li>
+        `;
+        html += li;
       }
     });
     guideList.innerHTML = html
     
-  } else {
-    if(user){
-      guideList.innerHTML = '<h5 class="center-align"> No Guides Created</h5>';
-    }
-    else{
-      guideList.innerHTML = '<h5 class="center-align">Login to view guides</h5>';
-    }
   }
-  
-
-};
+  else{
+    html = guideList.innerHTML = '<h5 class="center-align">No guides avalible.</h5>';
+  }
+}
 
 // setup materialize components
 document.addEventListener('DOMContentLoaded', function() {
