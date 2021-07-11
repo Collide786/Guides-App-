@@ -16,7 +16,7 @@ const setupUI = (user) => {
 
       firebase.storage().ref('users/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
         const html = `
-        <img style="width: 100px; border-radius: 5rem;" alt="not working" src="${image.alt ? image : noImgSrc}"> </img>
+        <img style="width: 100px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
         <br/>
         <br/>
         <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>

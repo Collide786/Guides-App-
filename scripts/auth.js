@@ -127,7 +127,8 @@ signupForm.addEventListener('submit', (event) => {
 
   // sign up the user & add firestore data
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
-      firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then((status) =>{
+      firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then(function(){
+        console.log('worked');
       })
     db.collection('users').doc(cred.user.uid).set({
       bio: signupForm['signup-bio'].value
@@ -137,7 +138,6 @@ signupForm.addEventListener('submit', (event) => {
     const modal = document.querySelector('#modal-signup');
     M.Modal.getInstance(modal).close();
     signupForm.reset();
-    setTimeout(function(){location.reload(true)}, 500);
   });
 });
 
