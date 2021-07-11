@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" contenzt="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="Custom_Materialize.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href='index.css'>
+  <title> Guides </title>
+</head> 
+<body>
+  <!-- NAVBAR -->
+  <nav class="z-depth-2.5 orange lighten-4">
+    <div class="nav-wrapper "> <!--container-->
+      <ul id="nav-mobile" class="right">
+          <li class="logged-in" style="display: none;">
+            <a href="#" class="blue-text text-darken-4 modal-trigger " data-target="modal-account">Account</a>
+          </li>
+          <li class="logged-in" style="display: none;">
+            <a href="#"  class="blue-text text-darken-4" id="logout">Logout</a>
+          </li>
+          <li class="logged-in" style="display: none;">
+            <a href="#" class="blue-text text-darken-4 modal-trigger" data-target="modal-create">Create Guide</a>
+          </li>
+          <li class="logged-out" style="display: none;">
+            <a href="#" class="blue-text text-darken-4 modal-trigger" data-target="modal-login">Login</a>
+          </li>
+          <li class="logged-out" style="display: none;">
+            <a href="#" class="blue-text text-darken-4 modal-trigger" data-target="modal-signup">Sign up</a>
+          </li>
+        </span>
+      </ul>
+    </div>
+  </nav>
+  
+  <center id="title">Guides</center>
+
+  <!-- Loading -->
+  <center>
+    <div class="loading"><div></div><div></div><div></div></div>
+  </center>
+
+  <!-- SIGN UP MODAL -->
+  <div id="modal-signup" class="modal"style="height: 505px">
+    <div class="modal-content">
+      <h4>Sign up</h4><br />
+      <form id="signup-form">
+        <!-- Username field-->
+        <i id="lock_icon" class="xs material-icons">mail_outline</i>
+        <div class="input-field">
+          <input type="email" id="signup-email" required />
+          <label for="signup-email">Email address</label>
+        </div>
+        <!-- Password field-->
+        <i id="lock_icon" class="xs material-icons">lock</i>
+        <div class="input-field">
+          <input type="password" id="signup-password" required />
+          <label for="signup-password">Choose password</label>
+        </div>
+        <div class="input-field">
+          <input type="text" id="signup-bio" required />
+          <label for="signup-bio">One Line Bio</label>
+        </div>
+        <div>
+          <label style="color: rgb(202, 202, 243); font-size: 1rem" for="image_uploads">Choose profile image</label>
+          <input onchange="uploadedImg(this)" type="file" id="image_uploads" name="image_uploads" multiple>
+        </div>
+        <div class="preview">
+          <p>No files currently selected for upload</p>
+        </div>
+        <br>
+        <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="modal-login" class="modal">
+    <div class="modal-content">
+      <h4 id="login_$">Login</h4><br />
+
+      <!-- Username field-->
+      <i id="lock_icon" class="xs material-icons">mail_outline</i>
+      <form id="login-form">
+        <div class="input-field">     
+          <input type="email" id="login-email" required />
+            <label for="login-email">Email address</label>
+        </div>
+        <!-- Password field-->
+        <i id="lock_icon" class="xs material-icons">lock</i>
+        <div class="input-field">
+          <input type="password" id="login-password" required />
+          <label for="login-password"> Your password</label>
+        </div>
+        <button class="btn yellow darken-2 z-depth-0" id="login_button">Login</button>
+        <span style="margin-left: 2%; color: red; font-weight: 430;" id="error-mg"> </span>
+      </form>
+    </div>
+  </div>
+
+  <!-- ACCOUNT MODAL -->
+  <div id="modal-account" class="modal">
+    <div class="modal-content center-align">
+      <h4>Account details</h4><br />
+      <div class="account-details"></div>
+    </div>
+  </div>
+
+  <!-- CREATE GUIDE MODAL -->
+  <div id="modal-create" class="modal">
+    <div class="modal-content">
+      <h4>Create Guide</h4><br />
+      <form id="create-form">
+        <div class="input-field">
+          <input type="text" id="title" required>
+          <label for="title">Guide Title</label>
+        </div>
+        <div class="input-field">
+          <textarea id="content" class="materialize-textarea" required></textarea>
+          <label for="content">Guide Content</label>
+        </div>
+        <button class="btn yellow darken-2 z-depth-0">Create</button>
+      </form>
+    </div>
+  </div>
+
+  
+
+  <!-- GUIDE LIST -->
+  <div id="content" class="container" style="margin-top: 40px;">
+    <ul class="collapsible z-depth-0 guides" style="border: none;">
+    </ul>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="scripts/auth.js"></script>
+  <script src="scripts/index.js"></script>
+</body>
+</html>
