@@ -92,7 +92,7 @@ const setupGuides = (data, user) => {
       <div style="font-size: 20px">Welcome</div>
       <div class="row"></div>
       <div class="col s6 right-align">
-        kadri4152@gmail.com - admin/owner
+        kadri4152@gmail.com - admin/owner!
       </div>
     </div>
     <div class="collapsible-body white" style="display: block">
