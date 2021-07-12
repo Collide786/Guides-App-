@@ -52,3 +52,9 @@ body{
 	}
  }
  
+#profileImage{
+	border: outset rgb(167, 122, 226) 0.5rem;
+}
+#profileImage:hover{
+	border: inset rgb(167, 122, 226) 0.5rem;
+}

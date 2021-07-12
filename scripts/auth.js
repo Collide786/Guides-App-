@@ -31,6 +31,7 @@ function uploadedImg(input) {
   }
   if (input.files && input.files[0]) {
     file = input.files[0];
+    console.log(file)
     var reader = new FileReader();
     reader.addEventListener(
       "load",
@@ -122,7 +123,7 @@ signupForm.addEventListener('submit', (e) => {
 
   // sign up the user & add firestore data
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
-    if(file != null){
+    if(file != null && file != undefined){
       firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then(function(){
         console.log('worked')      
       })
@@ -135,11 +136,7 @@ signupForm.addEventListener('submit', (e) => {
     const modal = document.querySelector('#modal-signup');
     M.Modal.getInstance(modal).close();
     signupForm.reset();
-  }).then(() =>{
-    setTimeout(function(){
-      window.location.reload();
-    }, 1000)
-  });
+  })
 });
 
 // logout
@@ -152,7 +149,7 @@ logout.addEventListener('click', (event) => {
 // login
 const loginForm = document.querySelector('#login-form');
 const loginButton = document.querySelector('#login_button');
-const error_mg = document.getElementById('error-mg');
+const error_mg = document.querySelector('.error-mg');
 
 loginForm.addEventListener('submit', (event) => {
   loginButton.innerHTML = 'Loading...'
@@ -179,3 +176,12 @@ const modal_Login = document.querySelector('[data-target="modal-login"]')
 modal_Login.addEventListener('click', (event) =>{
   loginButton.innerHTML = 'Login'
 })
+
+
+const delete_btn = document.querySelector('#btn_close_delete_modal');
+delete_btn.addEventListener('click', () =>{
+  const delete_modal = document.querySelector('#modal-delete')
+  M.Modal.getInstance(delete_modal).close();
+})
+
+

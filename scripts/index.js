@@ -1,21 +1,21 @@
-
 // DOM elements
 const guideList = document.querySelector('.guides');
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountDetails = document.querySelector('.account-details');
-const loadingUI = document.querySelector('.loading');
+const loadingUI = document.querySelector('.loading');   
 
 const setupUI = (user) => {
   loadingUI.style.display = 'none'
   if (user) {
     let noImgSrc = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
     let html;
+    let reload = false;
     // account info
     db.collection('users').doc(user.uid).get().then(doc => {
         firebase.storage().ref('users/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
         html = `
-        <img id="profileImage" style="width: 100px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
+        <img id="profileImage" style="width: 125px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
         <br/>
         <br/>
         <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
@@ -24,8 +24,12 @@ const setupUI = (user) => {
       accountDetails.innerHTML = html;
       }).catch((err) =>{
         console.error(err.code)
+        if(reload){
+          window.location.reload();
+          reload = !reload;
+        }
         html = `
-          <img id="profileImage" style="width: 100px; border-radius: 1rem;" alt="not working" src="${noImgSrc}"> </img>
+          <img id="profileImage" style="width: 125px; border-radius: 1rem;" alt="not working" src="${noImgSrc}"> </img>
           <br/>
           <br/>
           <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
@@ -60,10 +64,14 @@ const setupGuides = (data, user) => {
                 <div class="collapsible-header grey lighten-4"> 
                   ${guide.title} 
                   <div class="row"></div>
-                  <div class="col s1 right-align"> ${guide.time} </div>
+                  <div class="col s6 right-align"> ${guide.time} </div>
                 </div>
-
-                <div class="collapsible-body white"> ${guide.content} </div>
+                <div class="collapsible-body white"> ${guide.content} 
+                <a href="#" class="blue-text text-darken-4 modal-trigger" data-target="modal-delete">
+                <i id="lock_icon" class="xs material-icons right">delete_forever</i>
+                </a>
+                </div>
+                
             </li>
           `;
           html += li;
