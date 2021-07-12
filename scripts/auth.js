@@ -57,7 +57,7 @@ auth.onAuthStateChanged(user => {
           setupGuides(snapshot.docs, user)
           setupUI(user); 
         })
-      }
+      } 
       else{
         setupGuides(snapshot.docs, user);
         setupUI(user); 

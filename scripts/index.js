@@ -61,6 +61,7 @@ const setupGuides = (data, user) => {
       data.forEach(doc => {
         const guide = doc.data();
         if(guide.title && guide.content){
+          console.log(guide)
           const li = `
             <li>
                 <div class="collapsible-header grey lighten-4"> 
@@ -79,14 +80,31 @@ const setupGuides = (data, user) => {
         else{
           html = guideList.innerHTML = '<h5 class="center-align">No guides avalible.</h5>';
         }});
-      guideList.innerHTML = html
+        guideList.innerHTML = html
     }
     else{
         html = guideList.innerHTML = '<h5 class="center-align">No guides avalible.</h5>';
     }
   }
   else{
-    html = guideList.innerHTML = '<h5 class="center-align">Please Login to veiw guides</h5>';
+    guideList.innerHTML = `<li class="active">
+    <div class="collapsible-header grey lighten-4">
+      <div style="font-size: 20px">Welcome</div>
+      <div class="row"></div>
+      <div class="col s6 right-align">
+        kadri4152@gmail.com - admin/owner
+      </div>
+    </div>
+    <div class="collapsible-body white" style="display: block">
+      This website is here for anybody to create and view guides.
+      Please login or signup to view/create guides.
+      <br />
+      This website does not have all the features but in the near
+      future it will!
+      <br />
+      Enjoy : ]
+    </div>
+  </li>`
   }
 }
 
@@ -102,15 +120,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-const inputP = document.querySelector('#signup-password')
+const inputP = document.querySelector('#signup-password');
 const passStatus = document.querySelector('#passStatus');
 
 function showPasswordLogin(){
   if (inputP.type === "password") {
     inputP.type = "text";
-    passStatus.innerHTML = '<i class="xs material-icons">visibility</i> (visible)'
+    passStatus.innerHTML = '<i class="xs material-icons">visibility</i> (visible)';
   } else {
     inputP.type = "password";
-    passStatus.innerHTML = '<i class="xs material-icons">lock_outline</i> (hidden)'
+    passStatus.innerHTML = '<i class="xs material-icons">lock_outline</i> (hidden)';
   }
 }
