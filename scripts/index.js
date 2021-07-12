@@ -17,7 +17,7 @@ const setupUI = (user) => {
         html = `
         <label style="color: rgb(105, 115, 253); font-size: 1rem" for="image_uploads">
         <img id="profileImage" style="width: 125px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
-        <br/><br/>Choose profile image (this feature has not been created)</label>
+        <br/><br/>Choose profile image (this feature is in development)</label>
         <br/>
         <br/>
         <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
@@ -100,3 +100,17 @@ document.addEventListener('DOMContentLoaded', function() {
   M.Collapsible.init(items);
 
 });
+
+
+const inputP = document.querySelector('#signup-password')
+const passStatus = document.querySelector('#passStatus');
+
+function showPasswordLogin(){
+  if (inputP.type === "password") {
+    inputP.type = "text";
+    passStatus.innerHTML = '<i class="xs material-icons">visibility</i> (visible)'
+  } else {
+    inputP.type = "password";
+    passStatus.innerHTML = '<i class="xs material-icons">lock_outline</i> (hidden)'
+  }
+}

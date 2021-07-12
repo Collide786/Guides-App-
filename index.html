@@ -6,7 +6,11 @@
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="Custom_Materialize.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> -->
+  <!-- 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    copied and pasted every thing from the link above and then created a custom version with it, I only changed a few 
+    lines to meet my expectations 
+  -->
   <link rel="stylesheet" href='index.css'>
   <title> Guides </title>
 </head>
@@ -54,7 +58,7 @@
           <label for="signup-email">Email address</label>
         </div>
         <!-- Password field-->
-        <i id="lock_icon" class="xs material-icons">lock</i>
+        <a style="font-size: 14px;" id="passStatus" onclick="showPasswordLogin()"href="#"><i id="lock_icon" class="xs material-icons">lock_outline</i>(hidden)</a>
         <div class="input-field">
           <input type="password" id="signup-password" required />
           <label for="signup-password">Choose password</label>
@@ -90,11 +94,13 @@
             <label for="login-email">Email address</label>
         </div>
         <!-- Password field-->
-        <i id="lock_icon" class="xs material-icons">lock</i>
+
+        <a style="font-size: 14px;" id="passStatus"onclick="showPasswordLogin()"href="#"><i id="lock_icon" class="xs material-icons">lock_outline</i>(hidden)</a>
         <div class="input-field">
           <input type="password" id="login-password" required />
           <label for="login-password"> Your password</label>
         </div>
+        
         <button class="btn yellow darken-2 z-depth-0" id="login_button">Login</button>
         <span style="margin-left: 2%; color: red; font-weight: 430;" class="error-mg-login"> </span>
       </form>
@@ -122,7 +128,7 @@
           <textarea id="content" class="materialize-textarea" required> </textarea>
           <label for="content">Guide Content <br/> <br/>
           </label>
-          <a href="#" ><i class="material-icons right Small">image</i></a>
+          <a href="#" class="right"><span style="font-size: 20px">Upload(Still in development)</span><i id="imageIcon" class="material-icons right Small"> image</i></a>
         </div>
         <button class="btn yellow darken-2 z-depth-0">Create</button>
       </form>
@@ -134,7 +140,18 @@
   <!-- GUIDE LIST -->
   <div id="content" class="container" style="margin-top: 40px;">
     <ul class="collapsible z-depth-0 guides" style="border: none;">
-    </ul>
+            <li class="active">
+                <div class="collapsible-header grey lighten-4"> 
+                  <div style="font-size: 20px;">Welcome </div>
+                  <div class="row"></div>
+                  <div class="col s6 right-align"> kadri4152@gmail.com - 00:00:00 </div>
+                </div>
+                <div class="collapsible-body white" style="display: block;"> This website is here for any to create and view guides. 
+                
+                </div>
+                
+            </li>
+          </ul>
   </div>
 
   <!-- Scripts -->
