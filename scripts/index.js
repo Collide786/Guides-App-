@@ -4,7 +4,7 @@ const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountDetails = document.querySelector('.account-details');
 const loadingUI = document.querySelector('.loading');   
-
+let profileImage;
 const setupUI = (user) => {
   loadingUI.style.display = 'none'
   if (user) {
@@ -15,7 +15,9 @@ const setupUI = (user) => {
     db.collection('users').doc(user.uid).get().then(doc => {
         firebase.storage().ref('users/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
         html = `
+        <label style="color: rgb(105, 115, 253); font-size: 1rem" for="image_uploads">
         <img id="profileImage" style="width: 125px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
+        <br/><br/>Choose profile image (this feature has not been created)</label>
         <br/>
         <br/>
         <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
@@ -29,7 +31,7 @@ const setupUI = (user) => {
           reload = !reload;
         }
         html = `
-          <img id="profileImage" style="width: 125px; border-radius: 1rem;" alt="not working" src="${noImgSrc}"> </img>
+          <img id="profileImage" style="width: 125px; border-radius: 1rem;" src="${noImgSrc}"> </img>
           <br/>
           <br/>
           <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
@@ -62,13 +64,11 @@ const setupGuides = (data, user) => {
           const li = `
             <li>
                 <div class="collapsible-header grey lighten-4"> 
-                  ${guide.title} 
+                  <div style="font-size: 20px;">${guide.title} </div>
                   <div class="row"></div>
-                  <div class="col s6 right-align"> ${guide.time} </div>
+                  <div class="col s6 right-align"> ${user.email} - ${guide.time} </div>
                 </div>
                 <div class="collapsible-body white"> ${guide.content} 
-                <a href="#" class="blue-text text-darken-4 modal-trigger" data-target="modal-delete">
-                <i id="lock_icon" class="xs material-icons right">delete_forever</i>
                 </a>
                 </div>
                 

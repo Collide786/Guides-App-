@@ -72,6 +72,7 @@
         </div>
         <br>
         <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+        <span style="margin-left: 2%; color: red; font-weight: 430;" class="error-mg-signup"> </span>
       </form>
     </div>
   </div>
@@ -95,7 +96,7 @@
           <label for="login-password"> Your password</label>
         </div>
         <button class="btn yellow darken-2 z-depth-0" id="login_button">Login</button>
-        <span style="margin-left: 2%; color: red; font-weight: 430;" class="error-mg"> </span>
+        <span style="margin-left: 2%; color: red; font-weight: 430;" class="error-mg-login"> </span>
       </form>
     </div>
   </div>
@@ -118,29 +119,16 @@
           <label for="title">Guide Title</label>
         </div>
         <div class="input-field">
-          <textarea id="content" class="materialize-textarea" required></textarea>
-          <label for="content">Guide Content</label>
+          <textarea id="content" class="materialize-textarea" required> </textarea>
+          <label for="content">Guide Content <br/> <br/>
+          </label>
+          <a href="#" ><i class="material-icons right Small">image</i></a>
         </div>
         <button class="btn yellow darken-2 z-depth-0">Create</button>
       </form>
     </div>
   </div>
 
-<!-- Delete Modal -->
-<div id="modal-delete" class="modal">
-  <div class="modal-delete center-align">
-    <div class="modal-content">
-    <br/>
-    <div> <h4> You cannot undo this if you Delete</h4></div>
-    <br/>
-    <br/>
-    <div class="row">
-      <button type="button" class="btn btn-default" id="btn_close_delete_modal">Close</button>
-      <button onclick="" class="btn red darken-2"> Delete </button>
-    </div>
-  </div> 
-  </div>
-</div>
 
 
   <!-- GUIDE LIST -->

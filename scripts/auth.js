@@ -31,7 +31,6 @@ function uploadedImg(input) {
   }
   if (input.files && input.files[0]) {
     file = input.files[0];
-    console.log(file)
     var reader = new FileReader();
     reader.addEventListener(
       "load",
@@ -48,12 +47,13 @@ function uploadedImg(input) {
   }
 }
 
+
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
     db.collection('guides').onSnapshot(snapshot => {
       if(snapshot.docs.length != 0){
-        db.collection('guides').orderBy('time').orderBy('date').get().then((snapshot) =>{
+        db.collection('guides').orderBy('time', 'desc').orderBy('date', 'desc').get().then((snapshot) =>{
           setupGuides(snapshot.docs, user)
           setupUI(user); 
         })
@@ -95,7 +95,7 @@ createForm.addEventListener('submit', (event) => {
   auth.onAuthStateChanged((user) => {
     if(user){
     db.collection('guides').add({
-      title: createForm.title.value + ' -' + user.email,
+      title: createForm.title.value,
       content: createForm.content.value,
       time: `${hour()}:${minutes}:${seconds}`,
       date: `${date}`
@@ -115,6 +115,7 @@ createForm.addEventListener('submit', (event) => {
 
 // signup
 const signupForm = document.querySelector('#signup-form');
+const error_mg_signup = document.querySelector('.error-mg-signup');
 signupForm.addEventListener('submit', (e) => {
   e.preventDefault();
   // get user info
@@ -125,7 +126,8 @@ signupForm.addEventListener('submit', (e) => {
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
     if(file != null && file != undefined){
       firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then(function(){
-        console.log('worked')      
+        console.log('worked')
+        window.location.reload();      
       })
     }
     db.collection('users').doc(cred.user.uid).set({
@@ -136,6 +138,8 @@ signupForm.addEventListener('submit', (e) => {
     const modal = document.querySelector('#modal-signup');
     M.Modal.getInstance(modal).close();
     signupForm.reset();
+  }).catch((err) =>{
+    error_mg_signup.innerHTML = err.message;
   })
 });
 
@@ -149,7 +153,7 @@ logout.addEventListener('click', (event) => {
 // login
 const loginForm = document.querySelector('#login-form');
 const loginButton = document.querySelector('#login_button');
-const error_mg = document.querySelector('.error-mg');
+const error_mg_login = document.querySelector('.error-mg-login');
 
 loginForm.addEventListener('submit', (event) => {
   loginButton.innerHTML = 'Loading...'
@@ -165,9 +169,9 @@ loginForm.addEventListener('submit', (event) => {
     const modal = document.querySelector('#modal-login');
     M.Modal.getInstance(modal).close();
     loginForm.reset();
-  }).catch((error) => {
+  }).catch(() => {
     loginButton.innerHTML = 'Login'
-    error_mg.innerHTML = 'Invalid login credentials. Please try again.'
+    error_mg_login.innerHTML = 'Invalid login credentials. Please try again.'
   });
   
 });
@@ -176,12 +180,3 @@ const modal_Login = document.querySelector('[data-target="modal-login"]')
 modal_Login.addEventListener('click', (event) =>{
   loginButton.innerHTML = 'Login'
 })
-
-
-const delete_btn = document.querySelector('#btn_close_delete_modal');
-delete_btn.addEventListener('click', () =>{
-  const delete_modal = document.querySelector('#modal-delete')
-  M.Modal.getInstance(delete_modal).close();
-})
-
-

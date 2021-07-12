@@ -57,4 +57,5 @@ body{
 }
 #profileImage:hover{
 	border: inset rgb(167, 122, 226) 0.5rem;
+	color: rgb(105, 115, 253)
 }
