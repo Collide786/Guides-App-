@@ -13,7 +13,7 @@ const setupUI = (user) => {
     let reload = false;
     // account info
     db.collection('users').doc(user.uid).get().then(doc => {
-        firebase.storage().ref('user s/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
+        firebase.storage().ref('users/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
         html = `
         <label style="color: rgb(105, 115, 253); font-size: 0.7rem" for="image_uploads">
         <img id="profileImage" style="width: 125px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
@@ -25,6 +25,7 @@ const setupUI = (user) => {
       `;
       accountDetails.innerHTML = html;
       }).catch( err =>{
+        console.log(err)
         if(reload){
           window.location.reload();
           reload = !reload;
