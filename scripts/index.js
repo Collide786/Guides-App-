@@ -8,7 +8,7 @@ let profileImage;
 const setupUI = (user) => {
   loadingUI.style.display = 'none'
   if (user) {
-    let noImgSrc = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+    let noImgSrc = 'https://scontent-lax3-2.cdninstagram.com/v/t51.2885-19/44884218_345707102882519_2446069589734326272_n.jpg?_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_ohc=IDOlsTV2yQQAX8nJuXV&edm=AId3EpQBAAAA&ccb=7-4&oh=2396c229e475a40033a4d9261c4da759&oe=610014CF&_nc_sid=705020&ig_cache_key=YW5vbnltb3VzX3Byb2ZpbGVfcGlj.2-ccb7-4';
     let html;
     let reload = false;
     // account info
