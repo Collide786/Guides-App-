@@ -126,9 +126,9 @@ const passStatus = document.querySelector('#passStatus');
 function showPasswordLogin(){
   if (inputP.type === "password") {
     inputP.type = "text";
-    passStatus.innerHTML = '<i class="xs material-icons">visibility</i> (visible)';
+    passStatus.innerHTML = '<i class="xs material-icons">visibility</i>';
   } else {
     inputP.type = "password";
-    passStatus.innerHTML = '<i class="xs material-icons">lock_outline</i> (hidden)';
+    passStatus.innerHTML = '<i class="xs material-icons">lock_outline</i>';
   }
 }
