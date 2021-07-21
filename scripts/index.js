@@ -24,8 +24,7 @@ const setupUI = (user) => {
         <div style="font-size: 1.2rem;">Bio: ${doc.data().bio}</div>
       `;
       accountDetails.innerHTML = html;
-      }).catch((err) =>{
-        console.error(err.code)
+      }).catch( err =>{
         if(reload){
           window.location.reload();
           reload = !reload;
