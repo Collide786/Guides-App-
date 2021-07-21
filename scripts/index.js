@@ -15,7 +15,7 @@ const setupUI = (user) => {
     db.collection('users').doc(user.uid).get().then(doc => {
         firebase.storage().ref('user s/' + user.uid + '/profileImage').getDownloadURL().then(image =>{
         html = `
-        <label style="color: rgb(105, 115, 253); font-size: 1rem" for="image_uploads">
+        <label style="color: rgb(105, 115, 253); font-size: 0.7rem" for="image_uploads">
         <img id="profileImage" style="width: 125px; border-radius: 5rem;" alt="not working" src="${image}"> </img>
         <br/><br/>Choose profile image (this feature is in development)</label>
         <br/>
@@ -31,7 +31,7 @@ const setupUI = (user) => {
           reload = !reload;
         }
         html = `
-          <img id="profileImage" style="width: 125px; height: 150px; border-radius: 1rem;" src="${noImgSrc}"> </img>
+          <img id="profileImage" style="width: 125px; height: 150px; border-radius: 0.7rem;" src="${noImgSrc}"> </img>
           <br/>
           <br/>
           <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
