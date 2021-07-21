@@ -126,7 +126,6 @@ signupForm.addEventListener('submit', (e) => {
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
     if(file != null && file != undefined){
       firebase.storage().ref('users/' + cred.user.uid + '/profileImage').put(file).then(function(){
-        console.log('worked')
         window.location.reload();      
       })
     }
