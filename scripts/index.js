@@ -31,7 +31,7 @@ const setupUI = (user) => {
           reload = !reload;
         }
         html = `
-          <img id="profileImage" style="width: 125px; height: 150px; border-radius: 0.7rem;" src="${noImgSrc}"> </img>
+          <img id="profileImage" style="width: 125px; border-radius: 0.7rem;" src="${noImgSrc}"> </img>
           <br/>
           <br/>
           <div style="font-size: 1.2rem;">Logged in as ${user.email}</div>
